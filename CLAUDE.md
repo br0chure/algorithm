@@ -27,6 +27,9 @@ algorithm/
 ├── README.md
 ├── INDEX.md                   ← 按 pattern 分组的题号索引
 ├── go.mod
+├── patterns/                  ← 各 pattern 的概念 + 模板 + 心法 + 已刷题
+│   ├── tree_bfs.md
+│   └── ...
 ├── p0001_two_sum/
 │   ├── solution.go            // package p0001
 │   └── README.md              // frontmatter + 题面 + 思路 + 复杂度
@@ -65,6 +68,18 @@ tags: [hash_map, array]
 - 时间：O(n)
 - 空间：O(n)
 ```
+
+## Pattern 文档
+
+`patterns/` 目录下，每个 pattern 一份 markdown 文档（文件名 = tag，如 `tree_bfs.md`），记录：
+
+- **Pattern 概念**：什么时候用、典型场景
+- **Go 通用模板**：可背诵的标准代码结构
+- **心法 / 易错点**：通用陷阱与记忆要点
+- **常见变体**：同 pattern 下的题目分类
+- **已刷题目列表**：链接到对应 `pXXXX_xxx/` 目录
+
+通用模板与心法集中在 pattern 文档里；每题 `README.md` 只写本题特有的思路、易错点和复杂度。每归档一道题，把链接追加进对应 pattern 文档的「已刷题目」列表。
 
 ## Pattern 标签字典（与 leetcode-teacher skill 对齐）
 
