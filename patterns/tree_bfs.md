@@ -68,7 +68,30 @@ for len(queue) > 0 {
 
 > **记忆口诀**：初始化位置 = 重置频率。要"每层一份"就放每层那个循环的开头。把它挪进内层循环 = 你想要每层最后一个元素 = 右视图。
 
-### 4. 题面方向 ≠ 解法方向
+### 4. 聚合型问题：在标量上滚动维护，不要先收集再处理
+
+求「每层最大 / 最小 / 求和 / 平均」时，**不需要**先把整层 Val 收成切片再算。
+直接维护一个标量（`levelMax / levelSum / ...`）随节点滚动更新，层尾把它追加进 `result` 即可。
+
+```go
+for len(queue) > 0 {
+    levelSize := len(queue)
+    levelMax := queue[0].Val          // ← 每层重置；用「集合中已有元素」做初值，免哨兵
+    for i := 0; i < levelSize; i++ {
+        node := queue[0]; queue = queue[1:]
+        if node.Val > levelMax { levelMax = node.Val }
+        // ... 入队左右孩子
+    }
+    result = append(result, levelMax)
+}
+```
+
+**关键自问：「这个变量属于哪一层的状态？」** 答案是「层」→ 在外层 for 开头、内层 for 之前初始化（位置 B）。
+心法 #3 的「初始化位置 = 重置频率」对**切片和标量同样适用**——不要把它当成只是切片的规律。
+
+> **初值技巧**：能用「集合中已有元素」就别用哨兵。`queue[0].Val` 比 `math.MinInt` 更稳——节点值范围再变也不出错（注：`math.MinInt` 在 Go 里**是负数**，等于 `-2^63`，可以做哨兵；但能避免就避免）。
+
+### 5. 题面方向 ≠ 解法方向
 
 题目说"自底向上"不代表你必须**自底向上 BFS**。BFS 的天然方向是 FIFO + 从根开始，强行反向更难。**用熟模板 + 后处理**（如 reverse）几乎永远比改造模板简单。这条对所有模板题都通用。
 
@@ -89,3 +112,4 @@ for len(queue) > 0 {
 - [0102 二叉树的层序遍历](../p0102_binary_tree_level_order_traversal/) 🟡
 - [0199 二叉树的右视图](../p0199_binary_tree_right_side_view/) 🟡
 - [0107 二叉树的层序遍历 II](../p0107_binary_tree_level_order_traversal_ii/) 🟡
+- [0515 在每个树行中找最大值](../p0515_find_largest_value_in_each_tree_row/) 🟡
