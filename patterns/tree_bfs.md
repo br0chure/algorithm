@@ -95,6 +95,40 @@ for len(queue) > 0 {
 
 题目说"自底向上"不代表你必须**自底向上 BFS**。BFS 的天然方向是 FIFO + 从根开始，强行反向更难。**用熟模板 + 后处理**（如 reverse）几乎永远比改造模板简单。这条对所有模板题都通用。
 
+### 6. 输出大小已知 → 预分配定长切片，按 index 写入
+
+BFS 一进入新一层就有 `levelSize := len(queue)`——本层输出的**大小已经确定**。这种情况下两种切片用法的差别变得关键：
+
+```go
+level := make([]int, 0, levelSize)   // 长度 0、容量 levelSize ← 只能 append
+level := make([]int, levelSize)      // 长度就是 levelSize、全是零值 ← 可以随机写 level[i] = x
+```
+
+第二种用法的好处是**随机写**——你可以决定第 i 个节点的 Val 写到 `level` 的哪个位置，不必非得追加到尾。这对「事后想再调整顺序」的题（zigzag、按某种规则重排）有奇效：
+
+```go
+// 103 锯齿形：偶数层倒着写，省掉事后 reverse
+level := make([]int, levelSize)
+for i := 0; i < levelSize; i++ {
+    node := queue[0]; queue = queue[1:]
+    pos := i
+    if reverseLevel {
+        pos = levelSize - 1 - i
+    }
+    level[pos] = node.Val
+    // ... 入队孩子
+}
+```
+
+**为什么不用「append 到队头」实现倒序？** 头插每次都要把已有元素整体后移，本层 k 个节点 → O(k²)，**比事后 reverse（O(k)）更慢**，反而是负优化（同样的坑见 107 「为什么不在头部 insert」）。
+
+> **通用思维**：
+>
+> - **输出大小已知** → `make([]T, k)` 预分配定长 + 按 index 写
+> - **输出大小未知** → `make([]T, 0[, cap])` + append + 必要时后处理（reverse / sort / ...）
+>
+> 这个区分不只 BFS 适用，写任何 Go 代码遇到「我要构造一个切片」时都该先问一句「大小知不知道」。
+
 ## 常见变体（在通用模板上的改动）
 
 | 题号 | 名称 | 改动 |
@@ -113,3 +147,4 @@ for len(queue) > 0 {
 - [0199 二叉树的右视图](../p0199_binary_tree_right_side_view/) 🟡
 - [0107 二叉树的层序遍历 II](../p0107_binary_tree_level_order_traversal_ii/) 🟡
 - [0515 在每个树行中找最大值](../p0515_find_largest_value_in_each_tree_row/) 🟡
+- [0103 二叉树的锯齿形层序遍历](../p0103_binary_tree_zigzag_level_order_traversal/) 🟡

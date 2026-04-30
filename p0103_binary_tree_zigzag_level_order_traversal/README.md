@@ -1,0 +1,107 @@
+---
+id: 0103
+title: 二叉树的锯齿形层序遍历
+difficulty: 中等
+url: https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/
+tags: [tree_bfs]
+---
+
+# 二叉树的锯齿形层序遍历
+
+## 题面
+
+给你二叉树的根节点 `root`，返回其节点值的**锯齿形层序遍历**——第一层从左到右，下一层从右到左，再下一层从左到右，如此交替。
+
+样例：
+- 输入 `root = [3,9,20,null,null,15,7]` → 输出 `[[3], [20,9], [15,7]]`
+- 输入 `root = [1]` → 输出 `[[1]]`
+- 输入 `root = []` → 输出 `[]`
+
+约束：节点数 `0 ≤ n ≤ 2000`，`-100 ≤ Node.val ≤ 100`。
+
+## 思路
+
+**Pattern：BFS 标准模板 + 局部 reverse**（107 的「全局 reverse」局部化版本）。
+
+### 思路迁移
+
+- 107 教你「**模板 + 后处理**」——BFS 完整跑完后，对 `result` 做一次全局 reverse。
+- 103 是同一思路的**局部应用**——每跑完一层、判定该层是否需要倒序，**只 reverse 这一层**。
+
+> 心法 #5：题面方向 ≠ 解法方向。题面说「锯齿」不代表 BFS 时就要交替方向走；用熟模板 + 选择性后处理，永远比改造模板简单。
+
+### 实现细节
+
+1. 维护一个 `index` 计数当前是第几层（1-based）。
+2. 标准 BFS 收完整层 Val。
+3. 偶数层（`index % 2 == 0`）调 `reverse(level)` 原地翻转。
+4. `reverse` 抽成独立函数，双指针交换。
+
+## 优化解：预分配定长 + 按 index 写入（消除事后 reverse）
+
+每层的 `levelSize` 在进入循环时就**已知**——这是「输出大小已知」的典型场景。可以用 `make([]int, levelSize)` 预分配定长切片，**按位置写入**，把「正向 / 反向」编码到写入位置上：
+
+```go
+for len(queue) > 0 {
+    levelSize := len(queue)
+    level := make([]int, levelSize) // ← 注意：长度就是 levelSize（不是容量）
+    index++
+    reverseLevel := index%2 == 0
+    for i := 0; i < levelSize; i++ {
+        node := queue[0]
+        queue = queue[1:]
+        pos := i
+        if reverseLevel {
+            pos = levelSize - 1 - i // 倒着写
+        }
+        level[pos] = node.Val
+        if node.Left != nil {
+            queue = append(queue, node.Left)
+        }
+        if node.Right != nil {
+            queue = append(queue, node.Right)
+        }
+    }
+    result = append(result, level)
+}
+```
+
+| 写法 | 含义 | 用法 |
+|---|---|---|
+| `make([]int, 0, levelSize)` | 长度 0、容量 levelSize | 只能 `append` |
+| `make([]int, levelSize)` | **长度就是 levelSize**，初值全 0 | 可以 `level[i] = x` 随机写 |
+
+### 为什么不用「append 到队头」做倒序？
+
+```go
+level = append([]int{node.Val}, level...) // ❌ 头插：O(k) 每次 → 本层 O(k²)
+```
+
+头插每次都要把已有元素整体后移，本层 k 个节点 → `k(k-1)/2` = O(k²)。
+**比事后 reverse（O(k)）更慢**，反而是负优化（和 107 「不在头部 insert」是同一个坑）。
+
+### 抽象出的通用思维（可迁移）
+
+- **输出大小已知** → `make([]T, k)` 预分配定长 + 按 index 写
+- **输出大小未知** → `make([]T, 0[, cap])` + append + 必要时后处理
+
+详见 `patterns/tree_bfs.md` 心法 #6。
+
+## 复杂度
+
+### AC 解（BFS + reverse）
+
+- **时间：O(n)**
+  - 每个节点恰好出/入队各一次：O(n)。
+  - 每层 reverse 是 O(k)，所有层加起来 = O(n)。
+  - 总 O(n) + O(n) = O(n)。
+- **空间：O(n)**
+  - 队列峰值 ≈ 满二叉树最后一层节点数 ≈ n/2 → O(n)（推导见 0515）。
+  - `level` 每层 O(k)，但同一时刻只有一个活的，加进 `result` 后被下一层 `level` 覆盖。
+  - `result` 是输出本身，按惯例不计入辅助空间。
+
+### 优化解（预分配定长 + 按 index 写）
+
+- **时间：O(n)**——少了一次 reverse 遍历，常数更小，但量级不变。
+- **空间：O(n)**——同上，量级不变；但 `make([]int, levelSize)` 比 `make([]int, 0, levelSize)` 多一次零值初始化（runtime memclr），常数略高。
+- **结论**：两种解时间空间都是 O(n)，优化解减少一次显式遍历但多一次 memclr，实测差异极小。**真正的价值是把「预分配定长 + 按 index 写」这个通用思维记下来**——下次遇到「输出大小已知，但顺序需要调整」的题立刻能想到。
