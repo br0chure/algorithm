@@ -1,0 +1,107 @@
+---
+id: 0116
+title: 填充每个节点的下一个右侧节点指针
+difficulty: 中等
+url: https://leetcode.cn/problems/populating-next-right-pointers-in-each-node/
+tags: [tree_bfs]
+---
+
+# 填充每个节点的下一个右侧节点指针
+
+## 题面
+
+给定一棵**完美二叉树**，每个节点结构如下：
+
+```go
+type Node struct {
+    Val   int
+    Left  *Node
+    Right *Node
+    Next  *Node
+}
+```
+
+要求填充每个 `Next` 指针，使其指向**同层**的下一个节点。若该节点为本层最右节点，`Next` 设为 `nil`（默认就是 `nil`，可不显式赋值）。
+
+样例：
+- 输入 `root = [1,2,3,4,5,6,7]` → 同层连接：`1 → nil`，`2 → 3 → nil`，`4 → 5 → 6 → 7 → nil`
+- 输入 `root = []` → 不操作
+
+约束：节点数 `0 ≤ n ≤ 2^12`。
+
+## 思路
+
+**Pattern：标准 BFS 模板 + 1 行节点级动作**。这是 BFS 的「**横向连接**」变体——和 102/199/515/103 的「层级动作」不同，本题的核心动作落在**节点级**。
+
+### 关键 insight：「同层下一个节点」 = `queue[0]`（弹出当前后）
+
+```go
+node := queue[0]
+queue = queue[1:]          // 弹出当前节点
+if i < levelSize - 1 {
+    node.Next = queue[0]   // 此刻 queue[0] 就是同层下一个
+}
+```
+
+**为什么 `queue[0]` 此刻一定是同层节点？**
+`levelSize` 钩子保证当前层节点都还在 queue 头部连续排列；孩子追加到尾部，不会污染头部。所以**只要还在本层迭代中，`queue[0]` 永远是「同层下一个」**——直到弹光本层。
+
+「最后一个节点」（`i == levelSize - 1`）跳过赋值即可：Go 中 `*Node` 的零值就是 `nil`，`Next` 保持默认。
+
+### 完整代码
+
+见 `solution.go`。核心只是在标准模板里加了一个 `if`：
+
+```go
+for i := 0; i < levelSize; i++ {
+    node := queue[0]
+    queue = queue[1:]
+    if i < levelSize - 1 {
+        node.Next = queue[0]
+    }
+    if node.Left != nil  { queue = append(queue, node.Left)  }
+    if node.Right != nil { queue = append(queue, node.Right) }
+}
+```
+
+### 首次 AC 版本（v2）：「重复抽象」反例
+
+`solution_v2.go` 留存首次 AC 时的写法，用了**两个外层指针** `(left, right)` 跨迭代维护、`levelSize - i > 1 / == 1` 双分支判断本层剩余、显式 `right = nil` 复位。**结果是 AC 但写起来不顺手**——多写了 ~10 行。
+
+为什么会写成这样？把「同层相邻」抽象成 `(left, right)` 这对持久指针——这个抽象**正确但太早**。BFS 模板的 `queue + levelSize` 钩子已经把「同层」语义管好了，再造一层指针对就是**重复抽象**。
+
+### 反思 checklist：AC 后的「两问」
+
+代码 AC 不代表写得好。每次 AC 后强制对每个变量问两遍：
+
+> **Q1：这个变量跨迭代用过吗？**
+> 没用过（每轮一开始就被覆盖）→ **挪进循环**。
+>
+> **Q2：它从赋值到使用之间被读了几次？**
+> 只 1 次（写完立刻读）→ **删掉变量，直接把右值贴到使用处**。
+
+跑这两问把 v2 收敛到主解：
+
+| 改动 | 触发问题 |
+|---|---|
+| `var left *Node` 挪进循环、改 `left := queue[0]` | Q1：跨迭代没用 |
+| `var right *Node` 挪进循环 | Q1：跨迭代没用 |
+| 删 `if levelSize-i==1 { right = nil }` | 复位的需求消失（每轮重新声明默认就是 nil） |
+| 删 `right` 这个变量、直接 `node.Next = queue[0]` | Q2：写完立刻读，只 1 次 |
+| `levelSize-i > 1` 改 `i < levelSize-1` | 只是更直白，不是冗余 |
+
+更详细的对比见 `patterns/tree_bfs.md` 心法 #7、#8。
+
+## 复杂度
+
+- **时间：O(n)**
+  - 每个节点恰好出/入队各一次，O(n)。
+  - 节点级动作（赋 Next、入队左右孩子）都是 O(1)。
+- **空间：O(n)**
+  - 队列峰值 = 满二叉树最后一层节点数。题目保证完美二叉树（每层都填满），最后一层节点数 = `2^h ≈ n/2 + 1`，量级 O(n)。
+  - 不计输出本身（题目要求原地修改 `Next`，没有额外的 result 切片）。
+  - 标量变量（`levelSize`、`i`、`node`）O(1)。
+  - 综合：空间瓶颈在队列，**O(n)**。
+
+> 注：117（普通二叉树版本）若用同样的 BFS 模板，时空复杂度一致。
+> 117 想达到 O(1) 额外空间需要利用已建立的 `Next` 指针在层间「踏着 Next 走」，那是另一类题型，本题不展开。
