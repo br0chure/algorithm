@@ -1,0 +1,118 @@
+---
+id: 0543
+title: 二叉树的直径
+difficulty: 简单
+url: https://leetcode.cn/problems/diameter-of-binary-tree/
+tags: [tree_dfs]
+---
+
+# 二叉树的直径
+
+## 题面
+
+给定一棵二叉树的根节点 `root`，返回它的**直径**——树中**任意两个节点**之间最长路径的**边数**（不一定经过根）。
+
+样例：
+- 输入 `root = [1,2,3,4,5]` → 输出 `3`（如 `4 → 2 → 1 → 3`，3 条边）
+- 输入 `root = [1,2]` → 输出 `1`
+
+约束：节点数 `1 ≤ n ≤ 10^4`，`-100 ≤ Node.val ≤ 100`。
+
+> ⚠️ LC 标为「简单」，但是从 104 到 543 的认知跨度很大——本质是**首次需要把"返回值"和"答案"分成两个量**的题。
+
+## 思路
+
+**Pattern：tree_dfs 后序聚合 + 「返回值 vs 全局答案分离」**（详见 `patterns/tree_dfs.md` 心法 #2）。
+
+### 关键 insight：函数返回的不是答案
+
+题目要求「直径」可以**不经过根**——所以你**不能**让递归函数返回「子树内部的直径」。原因：
+
+子树内部的某条最长路径，可能已经在子树某个节点处「合龙」（左右两条腿都伸开）。父节点拿到这条路径后**没法再往上延伸**——因为再上去就成 Y 形，不是简单路径了。
+
+父节点真正需要从孩子那里得到的是：「**这个孩子向下能延伸的最深单边路径**」。父节点拿到左右两个单边深度，相加就是「经过我的最长路径」。
+
+### 两个量分离
+
+| 量 | 含义 | 谁要 |
+|---|---|---|
+| **函数返回值** `depth(node)` | 子树向下到最深叶子的**节点数**（含 node 自己） | 父节点拼接用 |
+| **全局答案** `maxDiameter` | 经过每个节点的「双边路径边数」的最大值 | 最终输出 |
+
+### 三个核心问题（写代码前的标准检查）
+
+1. **递归返回什么？** `int`，「子树向下到最深叶子的节点数」
+2. **空节点返回什么？** `0`
+3. **当前节点拿到 left、right 后做两件事**：
+   - **更新全局答案**：`maxDiameter = max(maxDiameter, left + right)` ← 经过当前节点的路径边数
+   - **返回给父节点**：`max(left, right) + 1` ← 单边深度
+
+## 完整代码
+
+```go
+func diameterOfBinaryTree(root *TreeNode) int {
+    maxDiameter := 0
+
+    var depth func(*TreeNode) int
+    depth = func(node *TreeNode) int {
+        if node == nil {
+            return 0
+        }
+        left := depth(node.Left)
+        right := depth(node.Right)
+        maxDiameter = max(maxDiameter, left+right)
+        return max(left, right) + 1
+    }
+    depth(root)
+    return maxDiameter
+}
+```
+
+## 三个常见的"写得别扭"，逐个解答
+
+### 别扭 1：全局变量该塞哪里？
+
+直觉是不想用包级 `var` 全局变量——对的。
+
+Go 里**闭包**完美解决「函数内维护共享状态」：
+
+- `maxDiameter` 是 `diameterOfBinaryTree` 的局部变量
+- 嵌套的 `depth` 函数字面量**捕获**这个变量（按引用，不是值拷贝）
+- 子调用每次写 `maxDiameter = ...` 改的是同一个变量
+
+**为什么必须 `var dfs func(...)` 然后 `dfs = func(...)` 两步？**
+Go 的 `:=` 是「先求右值再绑定左值」，写 `dfs := func(...) { dfs(...) }` 时，函数体里的 `dfs` 还没在作用域里 → 编译失败。两步声明把「让名字进入作用域」和「赋值」拆开。
+
+详见 `patterns/tree_dfs.md` 心法 #3。
+
+### 别扭 2：「递归求深度，但下意识想返回答案」
+
+这个不适应是**正常的**——104 让你习惯了「返回值就是答案」，到 543 突然要分离两者。
+
+**记忆抓手**：题面里出现「**任意两点**」「**不一定经过根**」「**子树内部最优**」 → 立刻警觉「返回值 ≠ 答案」，分两个量维护。
+
+详见 `patterns/tree_dfs.md` 心法 #2「触发条件」表。
+
+### 别扭 3：求深度但 `left + right` 恰好是边数？
+
+不是巧合，有清晰的几何解释。`depth(node)` 定义是「子树向下到最深叶子的**节点数**（含 node）」。
+
+经过 `node` 的路径形如：
+
+```
+左子树最深叶子 → ... → node.Left → node → node.Right → ... → 右子树最深叶子
+```
+
+- 路径上**节点数** = `depth(left)` + 1（node 自己） + `depth(right)`
+- 路径上**边数** = 节点数 − 1 = `depth(left) + depth(right)` ✓
+
+**关键恒等式**：**任何路径的边数 = 节点数 − 1**。
+左侧 `depth(L)` 节点 + 中间 1 个 node + 右侧 `depth(R)` 节点 = 总 `depth(L) + 1 + depth(R)` 节点。
+减 1 得边数 = `depth(L) + depth(R)`。**那个 +1（node）和 −1（节点 → 边）抵消了**——所以公式看着简洁。
+
+## 复杂度
+
+- **时间：O(n)**——每个节点恰好被递归访问 1 次，节点级动作（取 max、+1）O(1)。
+- **空间：O(h)**——递归栈，h 为树高（最坏链状 O(n)、平衡 O(log n)）。
+
+  栈帧分析（详见 `patterns/tree_dfs.md` 心法 #1）：单帧装 `node` 指针 + `left`、`right` 两个 int + 元信息，O(1)。函数体没有 `make`、没有大数组。`maxDiameter` 是**外层** `diameterOfBinaryTree` 的局部变量，不在 `depth` 的栈帧里——闭包按引用捕获，不复制。
