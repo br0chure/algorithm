@@ -1,0 +1,151 @@
+---
+id: 0104
+title: 二叉树的最大深度
+difficulty: 简单
+url: https://leetcode.cn/problems/maximum-depth-of-binary-tree/
+tags: [tree_dfs, tree_bfs]
+---
+
+# 二叉树的最大深度
+
+## 题面
+
+给定一棵二叉树的根节点 `root`，返回它的**最大深度**——从根节点到最远叶子节点的最长路径上的节点数。
+
+样例：
+- 输入 `root = [3,9,20,null,null,15,7]` → 输出 `3`
+- 输入 `root = [1,null,2]` → 输出 `2`
+- 输入 `root = []` → 输出 `0`
+
+约束：节点数 `0 ≤ n ≤ 10^4`，`-100 ≤ Node.val ≤ 100`。
+
+## 主解：DFS 后序聚合（`solution.go`）
+
+**Pattern：tree_dfs 后序聚合**——这是 DFS 模板里最干净的入门题，建立"后序聚合"思维。
+
+### 核心三问（写任何 DFS 前都要答）
+
+| 问题 | 本题答案 |
+|---|---|
+| 1. 递归返回什么？ | `int`，含义是「以当前节点为根的子树最大深度（节点数）」 |
+| 2. 空节点返回什么？ | `0`（空子树没节点，深度 0） |
+| 3. 当前节点拿到 left、right 后做什么？ | `max(left, right) + 1`（取较深一侧 + 算上自己） |
+
+三问填好，代码自然出来：
+
+```go
+func maxDepth(root *TreeNode) int {
+    if root == nil {
+        return 0
+    }
+    leftDepth := maxDepth(root.Left)
+    rightDepth := maxDepth(root.Right)
+    return max(leftDepth, rightDepth) + 1
+}
+```
+
+> **DFS 模板的本质**：`postorder = left 子问题 + right 子问题 + 当前节点合并`。把递归看作「子问题已解、只需合并」，思维就轻松多了——别去想完整的递归展开过程。
+
+### Go 整型 `max` / `min` 的坑
+
+```go
+math.Max(float64(a), float64(b))  // ❌ 别扭：math 包只支持 float64
+```
+
+`math.Max` 是老 API（Go 1.0），只接受 float64。整型用它要强转两次。
+
+**Go 1.21+ 把 `max` / `min` 提升为 builtin**（不在任何包里，类似 `len`、`cap`），泛型支持任意有序类型，无需 import：
+
+```go
+max(a, b)        // ✅ 整型、浮点、字符串都能用
+max(a, b, c, d)  // 还能多参数
+```
+
+LeetCode 的 Go 版本 ≥ 1.21，直接用 builtin。**记忆口诀**：
+- `math.Max / math.Min` → 老 API，给浮点数值计算用
+- **`max / min`（builtin）→ Go 1.21+ 默认选这个**
+
+## 备用解：BFS 数层数（`solution_v2.go`）
+
+标准 BFS 模板，每进入一层 `depth++`：
+
+```go
+for len(queue) > 0 {
+    depth++
+    levelSize := len(queue)
+    for i := 0; i < levelSize; i++ {
+        node := queue[0]; queue = queue[1:]
+        if node.Left != nil  { queue = append(queue, node.Left)  }
+        if node.Right != nil { queue = append(queue, node.Right) }
+    }
+}
+return depth
+```
+
+完整代码见 `solution_v2.go`。
+
+## DFS vs BFS 空间权衡（用具体树看）
+
+- **DFS 空间 = 栈深 = 树高 h**
+- **BFS 空间 = 队列峰值 = 树最大宽度 w**
+
+### 例 1：平衡树（完全二叉树）
+
+```
+        1            ← 第 0 层，1 个节点
+       / \
+      2   3          ← 第 1 层，2 个
+     / \ / \
+    4  5 6  7        ← 第 2 层，4 个
+```
+
+n=7，h=3，w=4。
+
+- DFS 栈深：1→2→4 路径上同时活着 3 帧 → **O(h) = O(log n)**
+- BFS 队列峰值：处理第 1 层时塞了第 2 层全部 4 个节点 → **O(w) ≈ O(n/2) = O(n)**
+
+→ **平衡树 DFS 省**（log n vs n/2）。
+
+### 例 2：链状树
+
+```
+1 → 2 → 3 → 4 → 5
+```
+
+n=5，h=5，w=1。
+
+- DFS 栈深：5 帧 → **O(n)**
+- BFS 队列峰值：每层 1 个 → **O(1)**
+
+→ **链状树 BFS 省**（常数 vs n）。
+
+### 总结
+
+| 树形态 | DFS 空间 | BFS 空间 | 谁省 |
+|---|---|---|---|
+| 平衡 | O(log n) | O(n) | DFS |
+| 链状 | O(n) | O(1) | BFS |
+| 一般 | O(h) | O(w) | 看 h vs w |
+
+**实际刷题里**：树形态通常没那么极端，两者差不多。**选哪种主要看题目要算什么**——
+- 算「按路径走、子树聚合」类（高度、直径、平衡判断） → DFS 后序更直接
+- 算「按层做事」类（层平均、右视图、连指针） → BFS 层级模板更直接
+
+104 算高度，本质聚合型 → DFS 是地道解法（也是为什么用它做模板入门题）。
+
+## 复杂度
+
+### 主解 DFS
+
+- **时间：O(n)**——每个节点恰好被递归访问 1 次，节点级动作（取 max、+1）O(1)。
+- **空间：O(h)**——只有递归栈的开销。栈深 = 树高 h（最坏链状 O(n)、平衡 O(log n)）。
+
+  栈帧分析（详见 `patterns/tree_dfs.md` 心法 #1）：
+  - 单帧装 `root` 指针 + `leftDepth`、`rightDepth` 两个 int + 元信息 → 几十字节、**O(1)**
+  - 函数体没有 `make`、没有大数组 → 单帧不随 n 变化
+  - 总空间 = 栈深 × 单帧 = O(h) × O(1) = **O(h)**
+
+### 备用解 BFS
+
+- **时间：O(n)**——同上。
+- **空间：O(w)**——队列峰值 = 树最大宽度。最坏满二叉树最后一层 ≈ n/2 → O(n)。
