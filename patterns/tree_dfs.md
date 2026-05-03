@@ -117,77 +117,88 @@ func badDfs(root *TreeNode) int {
 
 ---
 
-### 2. 返回值 vs 全局答案分离（「向上贡献」与「最优答案」是两个量）
+### 2. 函数返回值与最终答案的三种关系
 
-⚠️ **从基础递归（如 104）到进阶递归（如 543）的最大认知跃迁**——很多题里，**函数返回的东西** 和 **题目要的答案** 不是同一个量。
+DFS 题最重要的**设计决定**：函数返回的东西和题目要的答案是什么关系？想清楚这个，结构就有了。
 
-#### 触发条件（识别信号）
-
-题目里只要出现以下字眼之一，立刻警觉：
-
-- **「任意两点」「不一定经过根」**——答案可能藏在某个子树内部，不需要贯穿整棵树
-- **「子树之间最优」「子树内部最优」**
-- **「路径不必从根开始」「路径不必到叶子结束」**
-
-满足任一条 → **返回值（向上贡献）和全局答案要分离**。
-
-#### 两个量分别是什么
-
-| 量 | 定义 | 谁要它 |
-|---|---|---|
-| **函数返回值** | 给父节点拼接用的「**单边零件**」（一段从当前节点向下延伸的路径属性） | **父节点**——父节点要拿左右孩子的"零件"拼出"经过自己的某个量"，再把自己的零件继续往上贡献 |
-| **全局答案** | 在每个节点处计算出的「**经过当前节点的最优值**」，用一个共享变量取所有节点的最大/最小 | **最终输出**——所有节点都试一遍当过"中转点"，全局变量记住最大值 |
-
-#### 对比 104 vs 543
-
-| 题 | 题目要的答案 | 父节点想要的「零件」 | 两者是否同一个量 |
+| 结构 | 函数返回 | 最终答案在哪 | 何时是这种 |
 |---|---|---|---|
-| 104 最大深度 | 整棵树最深路径 | 子树最深深度 | **同** → 返回值就是答案（不需要分离） |
-| 543 直径 | 树中任意两点最长路径 | 子树**单边**向下深度 | **不同** → 必须分离 |
-| 124 最大路径和 | 树中任意路径节点和最大值 | 子树**单边**向下最大累加和 | **不同** → 必须分离 |
-| 236 最近公共祖先 | LCA 节点 | 子树是否**包含**目标节点 | **不同** → 必须分离 |
+| **A. 重合** | 答案本身 | `dfs(root)` 直接就是 | 答案是整棵树的某个聚合数值（深度、节点数、和） |
+| **B. 分离** | 给父节点拼接的「单边零件」 | 闭包变量在递归过程中累计 | 答案藏在「子树之间」或「不必从根开始」 |
+| **C. 哨兵** | 合法值 / 哨兵值（如 `-1`） | `dfs(root) != 哨兵` | 答案是 bool，且单点违反即整树违反 |
+
+#### 识别信号（按题面措辞）
+
+| 题面关键词 | 大概率是 |
+|---|---|
+| 「整棵树的 X」「树的 X」（X 是数值） | A |
+| 「任意两点」「不必经过根」「不必到叶子」「子树间最优」 | B |
+| 「是否平衡 / 对称 / 是 BST」「每个节点都满足 …」 | C |
 
 #### 写法骨架
 
 ```go
-func solve(root *TreeNode) ResultT {
-    answer := initialValue                  // ← 全局答案（局部变量 + 闭包捕获，见心法 #3）
+// A：返回值即答案
+func solve(root *TreeNode) int {
+    if root == nil { return 0 }
+    return combine(solve(root.Left), solve(root.Right), root)
+}
 
-    var dfs func(*TreeNode) ContribT
-    dfs = func(node *TreeNode) ContribT {
-        if node == nil { return zeroContrib }
-        left := dfs(node.Left)
-        right := dfs(node.Right)
-
-        // ① 用 left、right、node 计算「经过当前节点的最优」更新 answer
-        answer = update(answer, combine(left, right, node))
-
-        // ② 计算并返回「向上贡献」给父节点（注意：通常只能选 left/right 一边接 node，不能两边都接）
-        return contribute(left, right, node)
+// B：闭包变量记答案，返回值是单边零件
+func solve(root *TreeNode) int {
+    answer := initialValue
+    var dfs func(*TreeNode) int
+    dfs = func(node *TreeNode) int {
+        if node == nil { return 0 }
+        l, r := dfs(node.Left), dfs(node.Right)
+        answer = update(answer, mergeAcross(l, r, node))   // 经过当前节点的最优
+        return contributeUp(l, r, node)                    // 单边贡献给父节点
     }
     dfs(root)
     return answer
 }
+
+// C：哨兵 + 短路
+func solve(root *TreeNode) bool {
+    var dfs func(*TreeNode) int
+    dfs = func(node *TreeNode) int {
+        if node == nil { return baseValue }
+        l := dfs(node.Left);  if l == sentinel { return sentinel }
+        r := dfs(node.Right); if r == sentinel { return sentinel }
+        if !valid(l, r, node) { return sentinel }
+        return aggregate(l, r, node)
+    }
+    return dfs(root) != sentinel
+}
 ```
 
-**关键点**：① 和 ② 是**两个不同的合并方式**。`combine` 拼接左右两边形成"经过当前节点"的路径；`contribute` 只能选一条边继续向上（因为路径是简单路径，不能 Y 形上去）。
+#### B 型的关键约束：「跨节点合并」 ≠ 「向上贡献」
 
-### 3. Go 闭包是递归题维护共享状态的首选
+`mergeAcross`（左右两边拼起来经过当前节点）和 `contributeUp`（向上贡献给父节点）是**两个不同的合并方式**——绝不能写成同一个表达式。
 
-心法 #2 里的 `answer` 变量怎么放？三种写法对比：
+原因：路径是**简单路径**，不能 Y 形分叉上去。所以拼成「经过当前节点的最优」后这条路径就**不能再延伸**，必须把它存到 `answer` 里；而向父节点贡献的，只能选 left/right **一边**接上 node。
 
-| 写法 | 优点 | 缺点 |
-|---|---|---|
-| 包级 `var answer int` | 简单 | 全局污染、多次调用要重置、并发不安全 |
-| **函数内局部变量 + 闭包捕获** ⭐ | 局部、干净、无污染 | 写法稍特殊（两步声明） |
-| 普通函数 + 指针参数 `*int` | 不需要闭包 | 每层多传一个参数，不优雅 |
+#### C 型的哨兵设计：两个条件
 
-**推荐闭包**——但闭包写自递归函数有个固定套路：
+1. **哨兵值不撞车合法返回值**——返回值的合法范围里没有这个值。`-1` 适合「高度永非负」类；不适合「路径和可负」类（用 `MinInt` 或封装在 struct 里）。
+2. **一旦发现就立刻 return**——哨兵的全部价值在短路；拿到孩子返回值的下一行就检查，是哨兵就 return，跳过另一侧子树。
+
+### 3. 闭包是 B 型 / C 型递归的 Go 写法首选
+
+B 型需要在递归中维护一个 `answer`，C 型偶尔也用辅助变量。这个变量怎么放？
+
+| 写法 | 评价 |
+|---|---|
+| 包级 `var` | ❌ 全局污染、多次调用需重置、并发不安全 |
+| **函数内局部变量 + 闭包捕获** | ⭐ 推荐，干净 |
+| 指针参数 `*int` | 能用，但每层多传一个参数 |
+
+#### 自递归闭包的两步声明套路
 
 ```go
-var dfs func(*TreeNode) int          // ① 先声明（让 dfs 这个名字进入作用域）
-dfs = func(node *TreeNode) int {     // ② 再赋值（函数体里 dfs(...) 才能找到自己）
-    if node == nil { return 0 }
+var dfs func(*TreeNode) int          // ① 声明：让 dfs 进入作用域
+dfs = func(node *TreeNode) int {     // ② 赋值：函数体可以引用 dfs(...)
+    ...
     dfs(node.Left)
     dfs(node.Right)
     ...
@@ -195,16 +206,21 @@ dfs = func(node *TreeNode) int {     // ② 再赋值（函数体里 dfs(...) �
 dfs(root)                            // ③ 调用
 ```
 
-**为什么不能 `dfs := func(...)` 一行搞定？**
-Go 的 `:=` 语义是「先求右值、再绑定左值」——执行右边的 `func(...) {...}` 字面量时，左边的 `dfs` 还没在作用域里。函数体里写 `dfs(...)` 找不到标识符，编译失败。`var ...` + `=` 两步把「声明」和「赋值」拆开，第 ① 步后 `dfs` 已存在（值是 nil），第 ② 步赋值时函数体可以引用它。
+**为什么不能 `dfs := func(...)` 一行？**
+Go `:=` 是「先求右值再绑定左值」——执行右边的 `func` 字面量时，左边的 `dfs` 还没在作用域里，函数体里 `dfs(...)` 找不到标识符。两步声明把「让名字进入作用域」和「赋值」拆开。
 
-**辨析：闭包 ≠ goroutine**
-- **闭包** = 函数字面量 + 捕获外层变量（同步执行，等同普通函数调用）
-- **`go func() {...}()`** = `go` 关键字启动 goroutine（异步并发）
+非自递归闭包不存在这个问题，可以一行：
 
-我们用的是**纯闭包**，没有并发。两个机制语法相近但语义无关。
+```go
+double := func(x int) int { return x * 2 }
+```
 
-> **何时不需要闭包**：函数返回值就是题目要的答案（如 104 最大深度），不需要任何共享状态——直接写普通递归即可。
+#### 闭包 ≠ goroutine
+
+- **闭包** = 函数字面量 + 捕获外层变量（**同步**执行）
+- **`go func(){...}()`** = `go` 关键字启动 goroutine（**异步并发**）
+
+刷题里用的全是闭包，没有并发。
 
 ---
 
@@ -225,3 +241,4 @@ Go 的 `:=` 语义是「先求右值、再绑定左值」——执行右边的 `
 
 - [0104 二叉树的最大深度](../p0104_maximum_depth_of_binary_tree/) 🟢
 - [0543 二叉树的直径](../p0543_diameter_of_binary_tree/) 🟢
+- [0110 平衡二叉树](../p0110_balanced_binary_tree/) 🟢

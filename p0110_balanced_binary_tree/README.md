@@ -1,0 +1,74 @@
+---
+id: 0110
+title: 平衡二叉树
+difficulty: 简单
+url: https://leetcode.cn/problems/balanced-binary-tree/
+tags: [tree_dfs]
+---
+
+# 平衡二叉树
+
+## 题面
+
+给定一棵二叉树，判断它是否是**高度平衡的**——树中每个节点的左右子树**高度差不超过 1**。
+
+样例：
+- `[3,9,20,null,null,15,7]` → `true`
+- `[1,2,2,3,3,null,null,4,4]` → `false`（左侧链 `1→2→3→4` 高度 3，右侧链 `1→2` 高度 1，差 2）
+- `[]` → `true`
+
+约束：节点数 `0 ≤ n ≤ 5000`，`-10⁴ ≤ Node.val ≤ 10⁴`。
+
+## 思路
+
+**Pattern：tree_dfs 后序聚合 + -1 哨兵短路**（详见 `patterns/tree_dfs.md` 心法 #4）。
+
+### 核心三问
+
+1. **递归返回什么？** `int`，含义双重——
+   - 正常情况：子树高度（节点数，≥ 0）
+   - 异常情况：`-1`，表示子树已经不平衡（哨兵值）
+2. **空节点返回什么？** `0`
+3. **当前节点拿到 left、right 后做什么？**
+   - **逐个检查 -1**：左不平衡 → 立刻 `return -1`，不算右；右不平衡 → 立刻 `return -1`
+   - **检查当前节点平衡**：`|left - right| > 1` → `return -1`
+   - **合法情况**：`return max(left, right) + 1`
+
+### 完整代码
+
+```go
+func isBalanced(root *TreeNode) bool {
+    var height func(*TreeNode) int
+    height = func(node *TreeNode) int {
+        if node == nil { return 0 }
+        left := height(node.Left)
+        if left == -1 { return -1 }                 // 左子树不平衡 → 整个右子树都不算
+        right := height(node.Right)
+        if right == -1 { return -1 }                // 右子树不平衡 → 短路
+        if left-right > 1 || right-left > 1 {
+            return -1                               // 当前节点不平衡
+        }
+        return max(left, right) + 1
+    }
+    return height(root) != -1
+}
+```
+
+### 为什么 -1 是合适的哨兵？
+
+「合适的哨兵」需要满足两个条件：
+
+1. **哨兵值不能和合法值撞车**——本题高度永非负（≥ 0），所以 `-1` 这个值天然不会出现在「正常返回值」里，不会引起歧义。
+2. **一旦发现失败，子树不再需要算**——本题只需判断是否平衡，不需要其他统计量；早发现就早收工。
+
+如果题目要求「即使不平衡也要算出整棵树高度」，就不能这样短路——但这种场景很少。
+
+> **同类题**：
+> - 验证 BST：用 `nil` 或 `MIN_INT/MAX_INT` 作为「子树非 BST」的哨兵
+> - 求子树满足条件的最大值：不满足条件返回 `MIN_INT`
+
+## 复杂度
+
+- **时间：O(n)**——每个节点恰好被递归访问 1 次（最坏情况下，所有节点都合法才能到根）；节点级动作 O(1)。
+  - **早终止**：一旦发现不平衡子树，剩余节点全部跳过；不平衡靠近根时只跑常数节点。
+- **空间：O(h)**——递归栈，h 为树高（最坏链状 O(n)、平衡 O(log n)）。
