@@ -27,7 +27,7 @@
 - ✅ [111 二叉树的最小深度](p0111_minimum_depth_of_binary_tree/) → [tree_dfs](patterns/tree_dfs.md) (Type A 含边界)
 - ✅ [110 平衡二叉树](p0110_balanced_binary_tree/) → [tree_dfs](patterns/tree_dfs.md) (Type C 哨兵)
 - ✅ [543 二叉树的直径](p0543_diameter_of_binary_tree/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type B)
-- ❌ [124 二叉树中的最大路径和](https://leetcode.cn/problems/binary-tree-maximum-path-sum/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type B 进阶)
+- ✅ [124 二叉树中的最大路径和](p0124_binary_tree_maximum_path_sum/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type B 进阶)
 
 ### 4. 构造二叉树（0/2）
 
@@ -81,12 +81,12 @@
 |---|---|---|
 | 三序遍历 · 迭代 | 0/3 | |
 | 层序遍历 · BFS | 3/3 ✅ | BFS pattern 已毕业 |
-| 深度与高度 · DFS | 4/5 | 差 124 |
+| 深度与高度 · DFS | 5/5 ✅ | 全完成 |
 | 构造二叉树 | 0/2 | tree_construction（骨架已建） |
 | 子结构判断 | 0/3 | |
 | 路径系列 | 0/4 | |
 | 二叉搜索树 | 0/6 | bst（骨架已建） |
 | 其他 | 0/4 | |
-| **二叉树合计** | **7/30** | |
+| **二叉树合计** | **8/30** | |
 | 加菜 | 3 | |
-| **总计** | **10 题** | |
+| **总计** | **11 题** | |

@@ -1,0 +1,111 @@
+---
+id: 0124
+title: 二叉树中的最大路径和
+difficulty: 困难
+url: https://leetcode.cn/problems/binary-tree-maximum-path-sum/
+tags: [tree_dfs]
+---
+
+# 二叉树中的最大路径和
+
+## 题面
+
+二叉树中的**路径**：一条节点序列，相邻节点之间存在边，同一节点至多出现一次。**路径至少包含一个节点，不一定经过根**。
+
+**路径和** = 路径上所有节点 `Val` 的总和。返回**最大路径和**。
+
+样例：
+- `[1,2,3]` → `6`（路径：2 → 1 → 3）
+- `[-10,9,20,null,null,15,7]` → `42`（路径：15 → 20 → 7）
+- `[-3]` → `-3`（**单节点**也是合法路径，即使值为负）
+
+约束：节点数 `1 ≤ n ≤ 3·10^4`，`-1000 ≤ Node.val ≤ 1000`（**节点值可负**）。
+
+## 思路
+
+**Pattern：tree_dfs · Type B**（单边贡献 vs 全局答案分离）。
+
+> 详见 `patterns/tree_dfs.md` 心法 #2。这是 543 直径的进阶版——结构相同，但节点值可负带来新坑。
+
+### 核心三问
+
+| 问题 | 答案 |
+|---|---|
+| 1. 递归返回什么？ | `int`，「从当前节点向下延伸的**单边**最长路径和」——给父节点拼接用的「零件」 |
+| 2. 空节点返回什么？ | `0`（约定空树贡献 0；配合 `max(0, ...)` 让"不接这条腿"成为合法选择） |
+| 3. 当前节点拿到 left、right 后做什么？ | **两件事分开做**：① 用 `leftMax + rightMax + root.Val` 更新全局 `maxSum`（经过当前节点的双边路径）② 返回 `max(leftMax, rightMax) + root.Val` 给父节点（单边贡献） |
+
+### 完整代码
+
+```go
+func maxPathSum(root *TreeNode) int {
+    maxSum := math.MinInt
+    var path func(*TreeNode) int
+    path = func(root *TreeNode) int {
+        if root == nil { return 0 }
+        leftMax := max(0, path(root.Left))         // 子树贡献为负就砍掉
+        rightMax := max(0, path(root.Right))
+        sum := leftMax + rightMax + root.Val       // 经过当前节点的双边路径
+        if maxSum < sum { maxSum = sum }
+        return max(leftMax, rightMax) + root.Val   // 单边贡献给父节点
+    }
+    path(root)
+    return maxSum
+}
+```
+
+### 「单边贡献」≠「子树最大路径和」
+
+这是 124 最容易误判 Type 的地方——函数返回 `max(leftMax, rightMax) + root.Val`，看起来像「子树的最大路径和」，但**不是**。
+
+**子树最大路径和**可能是 `leftMax + rightMax + root.Val`（**两边都走**，形成 Λ 形）；
+**单边贡献**只能选一边走（`max(leftMax, rightMax) + root.Val`）。
+
+为什么不能让函数返回「双边路径」给父节点？
+
+```
+       parent
+       /
+      X        ← 子树根
+     / \
+    L   R
+```
+
+如果 X 把双边路径 `L → X → R` 返回给 parent，parent 想接上自己 → 路径变成 `parent → X → L → ??? → R`，X 出现了两次。**不是简单路径**。
+
+所以**双边路径只能存进 maxSum，不能向上贡献**。两个量必须分离 → Type B。
+
+### 为什么 `max(0, ...)` 加在子树返回值上、但**不能**加在 `root.Val` 上
+
+| 处 | 加 `max(0, ...)` 的语义 | 是否合法 |
+|---|---|---|
+| `max(0, path(root.Left))` | 「左子树贡献为负 → 不接这条腿」 | ✅ 路径可以**不延伸到左子树** |
+| `max(0, path(root.Right))` | 「右子树贡献为负 → 不接这条腿」 | ✅ 同上 |
+| `max(0, root.Val)` | 「root.Val 为负 → 把 root 自己扔了」 | ❌ 路径**必须经过当前节点**（root 是中转点） |
+
+「腿可以砍，根不能砍」是这道题最关键的边界判断。
+对应反例：单节点 `[-3]` 输入，期望 -3；如果对 `root.Val` 用 `max(0, ...)` 就会算出 0。
+
+### 为什么 `maxSum` 初始化为 `math.MinInt`
+
+节点值可负，路径和可负——某些用例下**所有可能的路径和都是负的**（如 `[-3]`、`[-1, -2, -3]`）。
+若初值为 `0` 或 `root.Val`，会有覆盖不到/边界出错的风险。`math.MinInt` 保证任何合法路径和都能更新它。
+
+### 与 543 二叉树的直径对比
+
+| | 543 直径 | 124 最大路径和 |
+|---|---|---|
+| Type | B | B |
+| 函数返回 | 子树向下到最深叶子的节点数（含自己） | 子树向下单边最大路径和 |
+| 全局答案 | `left + right`（边数 = 节点数 - 1） | `leftMax + rightMax + root.Val`（含中转节点） |
+| 节点贡献是否能为负 | 否（节点数 ≥ 0） | 是（节点值可负，要 `max(0, ...)` 过滤） |
+| 初值 | `0`（路径边数 ≥ 0） | `math.MinInt`（路径和可负） |
+
+两道题的**骨架完全一样**，差别在「贡献是否能为负」和「初值」。理解了 543 → 124 的迁移，B 型就稳了。
+
+## 复杂度
+
+- **时间：O(n)**——每个节点恰好被递归访问 1 次，节点级动作（取 max、加法）O(1)。
+- **空间：O(h)**——递归栈，h 为树高（最坏链状 O(n)、平衡 O(log n)）。
+
+  栈帧分析（详见 `patterns/tree_dfs.md` 心法 #1）：单帧装 `root` 指针 + `leftMax`、`rightMax`、`sum` 几个 int + 元信息，O(1)。`maxSum` 是闭包外层 `maxPathSum` 的局部变量，按引用捕获，**不在 path 的栈帧里**——递归再深也不复制。

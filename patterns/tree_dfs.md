@@ -243,3 +243,4 @@ double := func(x int) int { return x * 2 }
 - [0543 二叉树的直径](../p0543_diameter_of_binary_tree/) 🟢
 - [0110 平衡二叉树](../p0110_balanced_binary_tree/) 🟢
 - [0111 二叉树的最小深度](../p0111_minimum_depth_of_binary_tree/) 🟢
+- [0124 二叉树中的最大路径和](../p0124_binary_tree_maximum_path_sum/) 🔴
