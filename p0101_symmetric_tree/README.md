@@ -1,0 +1,81 @@
+---
+id: 0101
+title: 对称二叉树
+difficulty: 简单
+url: https://leetcode.cn/problems/symmetric-tree/
+tags: [tree_subtree]
+---
+
+# 对称二叉树
+
+## 题面
+
+给你一棵二叉树的根节点 `root`，**判断它是否轴对称**（沿垂直中线左右镜像）。
+
+样例：
+- `[1,2,2,3,4,4,3]` → `true`
+- `[1,2,2,null,3,null,3]` → `false`
+- `[1]` → `true`
+
+约束：节点数 `0 ≤ n ≤ 1000`，`-100 ≤ Node.val ≤ 100`。
+
+## 思路
+
+**Pattern：tree_subtree · 双树同步递归**（详见 `patterns/tree_subtree.md`）。
+
+### 关键转化
+
+「整棵树轴对称」 ⇔ **「root 的左子树和右子树互为镜像」**。
+
+把 root 的左右子树看成两棵独立的树，问题变成：判断两棵树是否互为镜像。这就是一个标准的双树同步递归问题。
+
+### 三问（双树版本）
+
+| 问题 | 答案 |
+|---|---|
+| 1. 「两棵树互为镜像」的递归定义 | 根值相等 + 左树的左 vs 右树的右、左树的右 vs 右树的左互为镜像 |
+| 2. base case | 两棵都 nil 镜像；一 nil 一非 nil 不镜像；两棵都非 nil 比 Val |
+| 3. 配对怎么进 | **不是左对左**——是 **`(p.Left, q.Right)`** + **`(p.Right, q.Left)`**（交叉） |
+
+### 完整代码
+
+```go
+func isSymmetric(root *TreeNode) bool {
+    var dfs func(p, q *TreeNode) bool
+    dfs = func(p, q *TreeNode) bool {
+        if p == nil && q == nil { return true }
+        if p == nil || q == nil { return false }
+        if p.Val != q.Val { return false }
+        return dfs(p.Left, q.Right) && dfs(p.Right, q.Left)  // ← 交叉配对
+    }
+    return dfs(root.Left, root.Right)
+}
+```
+
+### 为什么递归要用闭包
+
+LC 给的入口签名是 `isSymmetric(root) bool`，**只有一个 node 参数**；但镜像比较需要 `dfs(p, q)`，**两个 node 参数**。签名对不上 → 必须有"翻译层"。
+
+两种写法等价：
+
+| 写法 | 优劣 |
+|---|---|
+| 包级 helper（如 `func sym(p, q *TreeNode) bool`） | 暴露成 package 级函数，跨题可能撞名 |
+| 闭包内嵌（本解法） | 顶层只有一个 LC 函数，dfs 局部到 isSymmetric 内部 |
+
+两种都对，本解法选闭包。
+
+### 与「单树 DFS」的本质差别
+
+容易混的地方：单树 DFS（如 104、三序遍历）也写两个递归调用 `dfs(node.Left); dfs(node.Right)`，看起来也是「双递归」。但参数只有一个 node，递归推进的是**同一棵树的两个子树**。
+
+101 的 `dfs(p.Left, q.Right)` + `dfs(p.Right, q.Left)` 是**两棵不同的树同时推进**——参数有两个 node。这才是 `tree_subtree` pattern 的真正特征。
+
+> **判别口诀：函数签名带两个 node 参数 → 双树同步递归。**
+
+## 复杂度
+
+- **时间：O(n)**——每个节点最多被一对配对访问 1 次，节点级动作 O(1)。
+- **空间：O(h)**——递归栈，h 为树高（最坏链状 O(n)、平衡 O(log n)）。
+
+  栈帧只装 `p`、`q` 两个指针 + 元信息，O(1)；函数体没有动态分配。

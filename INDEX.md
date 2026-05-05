@@ -37,7 +37,7 @@
 ### 5. 子结构判断 · 双树同步递归（0/3）
 
 - ❌ [100 相同的树](https://leetcode.cn/problems/same-tree/) → [tree_subtree](patterns/tree_subtree.md)
-- ❌ [101 对称二叉树](https://leetcode.cn/problems/symmetric-tree/) ⭐ hot100 → [tree_subtree](patterns/tree_subtree.md)
+- ✅ [101 对称二叉树](p0101_symmetric_tree/) ⭐ hot100 → [tree_subtree](patterns/tree_subtree.md)
 - ❌ [572 另一棵树的子树](https://leetcode.cn/problems/subtree-of-another-tree/) → [tree_subtree](patterns/tree_subtree.md)
 
 ### 6. 路径系列 · DFS + 回溯（0/4）
@@ -83,10 +83,10 @@
 | 层序遍历 · BFS | 3/3 ✅ | BFS pattern 已毕业 |
 | 深度与高度 · DFS | 5/5 ✅ | 全完成 |
 | 构造二叉树 | 0/2 | tree_construction（骨架已建） |
-| 子结构判断 | 0/3 | |
+| 子结构判断 | 1/3 | tree_subtree 起步 |
 | 路径系列 | 0/4 | |
 | 二叉搜索树 | 0/6 | bst（骨架已建） |
 | 其他 | 0/4 | |
-| **二叉树合计** | **9/30** | |
+| **二叉树合计** | **10/30** | |
 | 加菜 | 3 | |
-| **总计** | **12 题** | |
+| **总计** | **13 题** | |
