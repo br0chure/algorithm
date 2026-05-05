@@ -34,7 +34,7 @@
 - ❌ [106 从中序与后序构造](https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/) → [tree_construction](patterns/tree_construction.md)
 - ❌ [105 从前序与中序构造](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/) ⭐ hot100 → [tree_construction](patterns/tree_construction.md)
 
-### 5. 子结构判断 · 同步双递归（0/3）
+### 5. 子结构判断 · 双树同步递归（0/3）
 
 - ❌ [100 相同的树](https://leetcode.cn/problems/same-tree/) → [tree_subtree](patterns/tree_subtree.md)
 - ❌ [101 对称二叉树](https://leetcode.cn/problems/symmetric-tree/) ⭐ hot100 → [tree_subtree](patterns/tree_subtree.md)

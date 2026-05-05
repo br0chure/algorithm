@@ -1,4 +1,4 @@
-# Tree Subtree（子结构判断 · 同步双递归）
+# Tree Subtree（子结构判断 · 双树同步递归）
 
 ## 何时使用
 
@@ -6,9 +6,8 @@
 - 判断一棵树是否轴对称（101，本质是 root 的左右子树互为镜像）
 - 判断一棵树是否包含另一棵作为子树（572）
 
-## 核心思路
-
-**两棵树同时递归**——基础情况同时处理两个 nil/非 nil 组合，递归时同步前进。
+> **关键标志：函数签名带两个 node 参数**（`f(p, q *TreeNode)`），递归时**两棵树同时推进**。
+> 区分：单树 DFS（如 104、三序遍历）虽然也写 `dfs(left); dfs(right)`，但参数只有一个 node——那是「同一棵树的两个子树」，不属于本 pattern。
 
 ## Go 通用模板：判断两棵树相同（100）
 
@@ -20,12 +19,6 @@ func isSameTree(p *TreeNode, q *TreeNode) bool {
     return isSameTree(p.Left, q.Left) && isSameTree(p.Right, q.Right)
 }
 ```
-
-`base case` 三种组合：
-
-- 两个都是 nil → 相同
-- 一个 nil 一个非 nil → 不同
-- 两个都非 nil → 比较 Val，再递归子树
 
 ## 三类变体
 
