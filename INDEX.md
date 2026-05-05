@@ -58,7 +58,7 @@
 
 ### 8. 其他（0/4）
 
-- ❌ [226 翻转二叉树](https://leetcode.cn/problems/invert-binary-tree/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md)
+- ✅ [226 翻转二叉树](p0226_invert_binary_tree/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md)
 - ❌ [617 合并二叉树](https://leetcode.cn/problems/merge-two-binary-trees/) → [tree_dfs](patterns/tree_dfs.md)
 - ❌ [114 二叉树展开为链表](https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md)
 - ❌ [236 最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type B)
@@ -87,6 +87,6 @@
 | 路径系列 | 0/4 | |
 | 二叉搜索树 | 0/6 | bst（骨架已建） |
 | 其他 | 0/4 | |
-| **二叉树合计** | **8/30** | |
+| **二叉树合计** | **9/30** | |
 | 加菜 | 3 | |
-| **总计** | **11 题** | |
+| **总计** | **12 题** | |
