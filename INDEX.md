@@ -7,7 +7,7 @@
 
 ---
 
-## 二叉树（6/30）
+## 二叉树（10/30）
 
 ### 1. 三序遍历 · 递归 + 迭代（0/3）
 
@@ -17,27 +17,27 @@
 
 ### 2. 层序遍历 · BFS（3/3）✅
 
-- ✅ [102 二叉树的层序遍历](p0102_binary_tree_level_order_traversal/) ⭐ hot100 → [tree_bfs](patterns/tree_bfs.md)
-- ✅ [103 锯齿形层序遍历](p0103_binary_tree_zigzag_level_order_traversal/) → [tree_bfs](patterns/tree_bfs.md)
-- ✅ [199 二叉树的右视图](p0199_binary_tree_right_side_view/) ⭐ hot100 → [tree_bfs](patterns/tree_bfs.md)
+- ✅ [0102 二叉树的层序遍历](0102%20二叉树的层序遍历.md) ⭐ hot100 → [tree_bfs](patterns/tree_bfs.md)
+- ✅ [0103 二叉树的锯齿形层序遍历](0103%20二叉树的锯齿形层序遍历.md) → [tree_bfs](patterns/tree_bfs.md)
+- ✅ [0199 二叉树的右视图](0199%20二叉树的右视图.md) ⭐ hot100 → [tree_bfs](patterns/tree_bfs.md)
 
-### 3. 深度与高度 · DFS 后序（3/5）
+### 3. 深度与高度 · DFS 后序（5/5）✅
 
-- ✅ [104 二叉树的最大深度](p0104_maximum_depth_of_binary_tree/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type A)
-- ✅ [111 二叉树的最小深度](p0111_minimum_depth_of_binary_tree/) → [tree_dfs](patterns/tree_dfs.md) (Type A 含边界)
-- ✅ [110 平衡二叉树](p0110_balanced_binary_tree/) → [tree_dfs](patterns/tree_dfs.md) (Type C 哨兵)
-- ✅ [543 二叉树的直径](p0543_diameter_of_binary_tree/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type B)
-- ✅ [124 二叉树中的最大路径和](p0124_binary_tree_maximum_path_sum/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type B 进阶)
+- ✅ [0104 二叉树的最大深度](0104%20二叉树的最大深度.md) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type A)
+- ✅ [0111 二叉树的最小深度](0111%20二叉树的最小深度.md) → [tree_dfs](patterns/tree_dfs.md) (Type A 含边界)
+- ✅ [0110 平衡二叉树](0110%20平衡二叉树.md) → [tree_dfs](patterns/tree_dfs.md) (Type C 哨兵)
+- ✅ [0543 二叉树的直径](0543%20二叉树的直径.md) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type B)
+- ✅ [0124 二叉树中的最大路径和](0124%20二叉树中的最大路径和.md) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type B 进阶)
 
 ### 4. 构造二叉树（0/2）
 
 - ❌ [106 从中序与后序构造](https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/) → [tree_construction](patterns/tree_construction.md)
 - ❌ [105 从前序与中序构造](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/) ⭐ hot100 → [tree_construction](patterns/tree_construction.md)
 
-### 5. 子结构判断 · 双树同步递归（0/3）
+### 5. 子结构判断 · 双树同步递归（1/3）
 
 - ❌ [100 相同的树](https://leetcode.cn/problems/same-tree/) → [tree_subtree](patterns/tree_subtree.md)
-- ✅ [101 对称二叉树](p0101_symmetric_tree/) ⭐ hot100 → [tree_subtree](patterns/tree_subtree.md)
+- ✅ [0101 对称二叉树](0101%20对称二叉树.md) ⭐ hot100 → [tree_subtree](patterns/tree_subtree.md)
 - ❌ [572 另一棵树的子树](https://leetcode.cn/problems/subtree-of-another-tree/) → [tree_subtree](patterns/tree_subtree.md)
 
 ### 6. 路径系列 · DFS + 回溯（0/4）
@@ -56,9 +56,9 @@
 - ❌ [98 验证 BST](https://leetcode.cn/problems/validate-binary-search-tree/) ⭐ hot100 → [bst](patterns/bst.md)
 - ❌ [230 BST 第 k 小](https://leetcode.cn/problems/kth-smallest-element-in-a-bst/) ⭐ hot100 → [bst](patterns/bst.md)
 
-### 8. 其他（0/4）
+### 8. 其他（1/4）
 
-- ✅ [226 翻转二叉树](p0226_invert_binary_tree/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md)
+- ✅ [0226 翻转二叉树](0226%20翻转二叉树.md) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md)
 - ❌ [617 合并二叉树](https://leetcode.cn/problems/merge-two-binary-trees/) → [tree_dfs](patterns/tree_dfs.md)
 - ❌ [114 二叉树展开为链表](https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md)
 - ❌ [236 最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type B)
@@ -69,9 +69,9 @@
 
 按 BFS pattern 推进策略额外刷的题，覆盖了源清单未列的"质"：
 
-- ✅ [107 层序遍历 II](p0107_binary_tree_level_order_traversal_ii/) → [tree_bfs](patterns/tree_bfs.md)（顺序变换 · 全局 reverse）
-- ✅ [515 在每个树行中找最大值](p0515_find_largest_value_in_each_tree_row/) → [tree_bfs](patterns/tree_bfs.md)（聚合型）
-- ✅ [116 填充每个节点的下一个右侧节点指针](p0116_populating_next_right_pointers_in_each_node/) → [tree_bfs](patterns/tree_bfs.md)（横向连接）
+- ✅ [0107 二叉树的层序遍历 II](0107%20二叉树的层序遍历%20II.md) → [tree_bfs](patterns/tree_bfs.md)（顺序变换 · 全局 reverse）
+- ✅ [0515 在每个树行中找最大值](0515%20在每个树行中找最大值.md) → [tree_bfs](patterns/tree_bfs.md)（聚合型）
+- ✅ [0116 填充每个节点的下一个右侧节点指针](0116%20填充每个节点的下一个右侧节点指针.md) → [tree_bfs](patterns/tree_bfs.md)（横向连接）
 
 ---
 
@@ -86,7 +86,7 @@
 | 子结构判断 | 1/3 | tree_subtree 起步 |
 | 路径系列 | 0/4 | |
 | 二叉搜索树 | 0/6 | bst（骨架已建） |
-| 其他 | 0/4 | |
+| 其他 | 1/4 | |
 | **二叉树合计** | **10/30** | |
 | 加菜 | 3 | |
 | **总计** | **13 题** | |

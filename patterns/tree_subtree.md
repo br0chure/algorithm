@@ -68,4 +68,4 @@ func isSubtree(root, subRoot *TreeNode) bool {
 
 ## 已刷题目
 
-- [0101 对称二叉树](../p0101_symmetric_tree/) 🟢
+- [0101 对称二叉树](../0101%20对称二叉树.md) 🟢

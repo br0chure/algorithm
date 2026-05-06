@@ -178,12 +178,12 @@ for i := 0; i < levelSize; i++ {
 
 ## 已刷题目
 
-- [0102 二叉树的层序遍历](../p0102_binary_tree_level_order_traversal/) 🟡
-- [0199 二叉树的右视图](../p0199_binary_tree_right_side_view/) 🟡
-- [0107 二叉树的层序遍历 II](../p0107_binary_tree_level_order_traversal_ii/) 🟡
-- [0515 在每个树行中找最大值](../p0515_find_largest_value_in_each_tree_row/) 🟡
-- [0103 二叉树的锯齿形层序遍历](../p0103_binary_tree_zigzag_level_order_traversal/) 🟡
-- [0116 填充每个节点的下一个右侧节点指针](../p0116_populating_next_right_pointers_in_each_node/) 🟡
+- [0102 二叉树的层序遍历](../0102%20二叉树的层序遍历.md) 🟡
+- [0199 二叉树的右视图](../0199%20二叉树的右视图.md) 🟡
+- [0107 二叉树的层序遍历 II](../0107%20二叉树的层序遍历%20II.md) 🟡
+- [0515 在每个树行中找最大值](../0515%20在每个树行中找最大值.md) 🟡
+- [0103 二叉树的锯齿形层序遍历](../0103%20二叉树的锯齿形层序遍历.md) 🟡
+- [0116 填充每个节点的下一个右侧节点指针](../0116%20填充每个节点的下一个右侧节点指针.md) 🟡
 
 ## 🎓 BFS 毕业（按 CLAUDE.md「Pattern 推进策略」）
 
