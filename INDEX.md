@@ -7,7 +7,7 @@
 
 ---
 
-## 二叉树（10/30）
+## 二叉树（12/30）
 
 ### 1. 三序遍历 · 递归 + 迭代（0/3）
 
@@ -34,11 +34,11 @@
 - ❌ [106 从中序与后序构造](https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/) → [tree_construction](patterns/tree_construction.md)
 - ❌ [105 从前序与中序构造](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/) ⭐ hot100 → [tree_construction](patterns/tree_construction.md)
 
-### 5. 子结构判断 · 双树同步递归（1/3）
+### 5. 子结构判断 · 双树同步递归（3/3）✅
 
-- ❌ [100 相同的树](https://leetcode.cn/problems/same-tree/) → [tree_subtree](patterns/tree_subtree.md)
+- ✅ [0100 相同的树](0100%20相同的树.md) → [tree_subtree](patterns/tree_subtree.md)
 - ✅ [0101 对称二叉树](0101%20对称二叉树.md) ⭐ hot100 → [tree_subtree](patterns/tree_subtree.md)
-- ❌ [572 另一棵树的子树](https://leetcode.cn/problems/subtree-of-another-tree/) → [tree_subtree](patterns/tree_subtree.md)
+- ✅ [0572 另一棵树的子树](0572%20另一棵树的子树.md) → [tree_subtree](patterns/tree_subtree.md)
 
 ### 6. 路径系列 · DFS + 回溯（0/4）
 
@@ -83,10 +83,10 @@
 | 层序遍历 · BFS | 3/3 ✅ | BFS pattern 已毕业 |
 | 深度与高度 · DFS | 5/5 ✅ | 全完成 |
 | 构造二叉树 | 0/2 | tree_construction（骨架已建） |
-| 子结构判断 | 1/3 | tree_subtree 起步 |
+| 子结构判断 | 3/3 ✅ | tree_subtree 毕业 |
 | 路径系列 | 0/4 | |
 | 二叉搜索树 | 0/6 | bst（骨架已建） |
 | 其他 | 1/4 | |
-| **二叉树合计** | **10/30** | |
+| **二叉树合计** | **12/30** | |
 | 加菜 | 3 | |
-| **总计** | **13 题** | |
+| **总计** | **15 题** | |
