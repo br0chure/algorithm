@@ -136,4 +136,4 @@ func sortedArrayToBST(nums []int) *TreeNode {
 
 ## 已刷题目
 
-（待积累）
+- [0098 验证二叉搜索树](../0098%20验证二叉搜索树.md) 🟡（上下界 + 中序两版）

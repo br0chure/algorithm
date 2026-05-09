@@ -7,7 +7,7 @@
 
 ---
 
-## 二叉树（12/30）
+## 二叉树（13/30）
 
 ### 1. 三序遍历 · 递归 + 迭代（0/3）
 
@@ -47,13 +47,13 @@
 - ❌ [113 路径总和 II](https://leetcode.cn/problems/path-sum-ii/) → [tree_path](patterns/tree_path.md)
 - ❌ [437 路径总和 III](https://leetcode.cn/problems/path-sum-iii/) ⭐ hot100 → [tree_path](patterns/tree_path.md)
 
-### 7. 二叉搜索树（0/6）
+### 7. 二叉搜索树（1/6）
 
 - ❌ [108 有序数组转 BST](https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/) ⭐ hot100 → [bst](patterns/bst.md)
 - ❌ [700 BST 搜索](https://leetcode.cn/problems/search-in-a-binary-search-tree/) → [bst](patterns/bst.md)
 - ❌ [701 BST 插入](https://leetcode.cn/problems/insert-into-a-binary-search-tree/) → [bst](patterns/bst.md)
 - ❌ [450 BST 删除](https://leetcode.cn/problems/delete-node-in-a-bst/) → [bst](patterns/bst.md)
-- ❌ [98 验证 BST](https://leetcode.cn/problems/validate-binary-search-tree/) ⭐ hot100 → [bst](patterns/bst.md)
+- ✅ [0098 验证二叉搜索树](0098%20验证二叉搜索树.md) ⭐ hot100 → [bst](patterns/bst.md)
 - ❌ [230 BST 第 k 小](https://leetcode.cn/problems/kth-smallest-element-in-a-bst/) ⭐ hot100 → [bst](patterns/bst.md)
 
 ### 8. 其他（1/4）
@@ -85,8 +85,8 @@
 | 构造二叉树 | 0/2 | tree_construction（骨架已建） |
 | 子结构判断 | 3/3 ✅ | tree_subtree 毕业 |
 | 路径系列 | 0/4 | |
-| 二叉搜索树 | 0/6 | bst（骨架已建） |
+| 二叉搜索树 | 1/6 | bst 起步 |
 | 其他 | 1/4 | |
-| **二叉树合计** | **12/30** | |
+| **二叉树合计** | **13/30** | |
 | 加菜 | 3 | |
-| **总计** | **15 题** | |
+| **总计** | **16 题** | |
