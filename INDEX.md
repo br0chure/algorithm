@@ -7,7 +7,7 @@
 
 ---
 
-## 二叉树（16/30）
+## 二叉树（17/30）
 
 ### 1. 三序遍历 · 递归 + 迭代（0/3）
 
@@ -47,11 +47,11 @@
 - ❌ [113 路径总和 II](https://leetcode.cn/problems/path-sum-ii/) → [tree_path](patterns/tree_path.md)
 - ❌ [437 路径总和 III](https://leetcode.cn/problems/path-sum-iii/) ⭐ hot100 → [tree_path](patterns/tree_path.md)
 
-### 7. 二叉搜索树（4/6）
+### 7. 二叉搜索树（5/6）
 
 - ✅ [0108 将有序数组转换为二叉搜索树](0108%20将有序数组转换为二叉搜索树.md) ⭐ hot100 → [bst](patterns/bst.md)
 - ✅ [0700 二叉搜索树中的搜索](0700%20二叉搜索树中的搜索.md) → [bst](patterns/bst.md)
-- ❌ [701 BST 插入](https://leetcode.cn/problems/insert-into-a-binary-search-tree/) → [bst](patterns/bst.md)
+- ✅ [0701 二叉搜索树中的插入操作](0701%20二叉搜索树中的插入操作.md) → [bst](patterns/bst.md)
 - ❌ [450 BST 删除](https://leetcode.cn/problems/delete-node-in-a-bst/) → [bst](patterns/bst.md)
 - ✅ [0098 验证二叉搜索树](0098%20验证二叉搜索树.md) ⭐ hot100 → [bst](patterns/bst.md)
 - ✅ [0230 二叉搜索树中第 K 小的元素](0230%20二叉搜索树中第%20K%20小的元素.md) ⭐ hot100 → [bst](patterns/bst.md)
@@ -85,8 +85,8 @@
 | 构造二叉树 | 0/2 | tree_construction（骨架已建） |
 | 子结构判断 | 3/3 ✅ | tree_subtree 毕业 |
 | 路径系列 | 0/4 | |
-| 二叉搜索树 | 4/6 | bst 三种质（中序 / 构造 / 左小右大）全覆盖 |
+| 二叉搜索树 | 5/6 | 差 450（删除） |
 | 其他 | 1/4 | |
-| **二叉树合计** | **16/30** | |
+| **二叉树合计** | **17/30** | |
 | 加菜 | 3 | |
-| **总计** | **19 题** | |
+| **总计** | **20 题** | |
