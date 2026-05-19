@@ -123,7 +123,58 @@ func sortedArrayToBST(nums []int) *TreeNode {
 
 ## 心法
 
-（待积累）
+### 1. 修改类题用「父节点 = 子调用返回值」修剪树指针
+
+凡是要改变树结构的题（插入、删除、构造），递归调用必须用 `=` **把返回值接回到父节点的 `.Left` / `.Right` 字段**：
+
+```go
+root.Left = insertIntoBST(root.Left, val)    // ✅ 把可能新建的节点挂到父节点
+// 而不是
+insertIntoBST(root.Left, val)                // ❌ 新节点返回了但没人接，飘走
+```
+
+**两种情况自动统一**：
+
+- 中间节点：返回原 root.Left，赋值无副作用
+- base case（在 nil 处建新节点）：返回新节点，赋值让它真正挂上去
+
+**只搜不改的题（700）不需要**——因为不动结构，子调用结果用不上。
+
+**0701 / 0450 / 0108** 都用了这个模式，新刷的修改类树题（删除链表节点等）也通用。
+
+### 2. 中序题的通用骨架：闭包 + 共享状态 + 入口短路
+
+BST 中序遍历得到升序——多数 BST 题都能用这个性质，骨架完全一致：
+
+```go
+func solve(root *TreeNode) ResultT {
+    // 共享状态（取决于题目要什么）
+    var prev *TreeNode      // 验证 BST 用
+    // 或 count, result := 0, 0    // 第 k 小用
+
+    var dfs func(*TreeNode) bool
+    dfs = func(node *TreeNode) bool {
+        if node == nil || /* 终止条件 */ {
+            return true
+        }
+        if !dfs(node.Left) { return false }   // 入口短路：左子树失败立即返回
+        // —— 在中序位置处理 node ——
+        // 用 prev 或 count 等共享状态做事
+        return dfs(node.Right)
+    }
+    return /* 用 result 或其他 */
+}
+```
+
+**共享状态变量取什么取决于题目**：
+
+| 题 | 共享状态 | 终止条件 |
+|---|---|---|
+| 0098 验证 BST | `prev *TreeNode` | `prev.Val >= node.Val` 时 false |
+| 0230 第 k 小 | `count + result` | `count >= k` 短路 |
+| 未来：最小绝对差、众数 | `prev + best` | 类似 |
+
+**记忆抓手**：题目说"BST" + "中序" / "排序" / "k 小 / 大" / "差" → 用这个骨架。
 
 ## 题目清单
 
