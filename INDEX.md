@@ -7,7 +7,7 @@
 
 ---
 
-## 二叉树（21/30）
+## 二叉树（22/30）
 
 ### 1. 三序遍历 · 递归 + 迭代（0/3）
 
@@ -40,12 +40,12 @@
 - ✅ [0101 对称二叉树](0101%20对称二叉树.md) ⭐ hot100 → [tree_subtree](patterns/tree_subtree.md)
 - ✅ [0572 另一棵树的子树](0572%20另一棵树的子树.md) → [tree_subtree](patterns/tree_subtree.md)
 
-### 6. 路径系列 · DFS + 回溯（3/4）
+### 6. 路径系列 · DFS + 回溯（4/4）✅
 
 - ✅ [0257 二叉树的所有路径](0257%20二叉树的所有路径.md) → [tree_path](patterns/tree_path.md)
 - ✅ [0112 路径总和](0112%20路径总和.md) → [tree_path](patterns/tree_path.md)
 - ✅ [0113 路径总和 II](0113%20路径总和%20II.md) → [tree_path](patterns/tree_path.md)
-- ❌ [437 路径总和 III](https://leetcode.cn/problems/path-sum-iii/) ⭐ hot100 → [tree_path](patterns/tree_path.md)
+- ✅ [0437 路径总和 III](0437%20路径总和%20III.md) ⭐ hot100 → [tree_path](patterns/tree_path.md)
 
 ### 7. 二叉搜索树（6/6）✅
 
@@ -84,9 +84,9 @@
 | 深度与高度 · DFS | 5/5 ✅ | 全完成 |
 | 构造二叉树 | 0/2 | tree_construction（骨架已建） |
 | 子结构判断 | 3/3 ✅ | tree_subtree 毕业 |
-| 路径系列 | 3/4 | 差 437 |
+| 路径系列 | 4/4 ✅ | tree_path 毕业（437 前缀和优化待补）|
 | 二叉搜索树 | 6/6 ✅ | bst 毕业 |
 | 其他 | 1/4 | |
-| **二叉树合计** | **21/30** | |
+| **二叉树合计** | **22/30** | |
 | 加菜 | 3 | |
-| **总计** | **24 题** | |
+| **总计** | **25 题** | |
