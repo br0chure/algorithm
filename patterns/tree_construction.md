@@ -71,4 +71,4 @@ func build(pre []int, preL, preR int, in []int, inL, inR int) *TreeNode {
 
 ## 已刷题目
 
-（待积累）
+- [0105 从前序与中序遍历序列构造二叉树](../0105%20从前序与中序遍历序列构造二叉树.md) 🟡（前序定根 + 中序切分）
