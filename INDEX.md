@@ -7,7 +7,7 @@
 
 ---
 
-## 二叉树（23/30）
+## 二叉树（24/30）
 
 ### 1. 三序遍历 · 递归 + 迭代（0/3）
 
@@ -29,9 +29,9 @@
 - ✅ [0543 二叉树的直径](0543%20二叉树的直径.md) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type B)
 - ✅ [0124 二叉树中的最大路径和](0124%20二叉树中的最大路径和.md) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type B 进阶)
 
-### 4. 构造二叉树（1/2）
+### 4. 构造二叉树（2/2）✅
 
-- ❌ [106 从中序与后序构造](https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/) → [tree_construction](patterns/tree_construction.md)
+- ✅ [0106 从中序与后序遍历序列构造二叉树](0106%20从中序与后序遍历序列构造二叉树.md) → [tree_construction](patterns/tree_construction.md)
 - ✅ [0105 从前序与中序遍历序列构造二叉树](0105%20从前序与中序遍历序列构造二叉树.md) ⭐ hot100 → [tree_construction](patterns/tree_construction.md)
 
 ### 5. 子结构判断 · 双树同步递归（3/3）✅
@@ -82,11 +82,11 @@
 | 三序遍历 · 迭代 | 0/3 | |
 | 层序遍历 · BFS | 3/3 ✅ | BFS pattern 已毕业 |
 | 深度与高度 · DFS | 5/5 ✅ | 全完成 |
-| 构造二叉树 | 1/2 | tree_construction 起步 |
+| 构造二叉树 | 2/2 ✅ | tree_construction 毕业 |
 | 子结构判断 | 3/3 ✅ | tree_subtree 毕业 |
 | 路径系列 | 4/4 ✅ | tree_path 毕业（437 前缀和优化待补）|
 | 二叉搜索树 | 6/6 ✅ | bst 毕业 |
 | 其他 | 1/4 | |
-| **二叉树合计** | **23/30** | |
+| **二叉树合计** | **24/30** | |
 | 加菜 | 3 | |
-| **总计** | **26 题** | |
+| **总计** | **27 题** | |
