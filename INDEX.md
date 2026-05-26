@@ -7,12 +7,12 @@
 
 ---
 
-## 二叉树（26/30）
+## 二叉树（27/30）
 
-### 1. 三序遍历 · 递归 + 迭代（2/3）
+### 1. 三序遍历 · 递归 + 迭代（3/3）✅
 
 - ✅ [0144 二叉树的前序遍历](0144%20二叉树的前序遍历.md) → [tree_traversal](patterns/tree_traversal.md)
-- ❌ [94 中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/) ⭐ hot100 → [tree_traversal](patterns/tree_traversal.md)
+- ✅ [0094 二叉树的中序遍历](0094%20二叉树的中序遍历.md) ⭐ hot100 → [tree_traversal](patterns/tree_traversal.md)
 - ✅ [0145 二叉树的后序遍历](0145%20二叉树的后序遍历.md) → [tree_traversal](patterns/tree_traversal.md)
 
 ### 2. 层序遍历 · BFS（3/3）✅
@@ -79,7 +79,7 @@
 
 | 问题域 | 进度 | 备注 |
 |---|---|---|
-| 三序遍历 · 迭代 | 2/3 | 差 94（中序最难） |
+| 三序遍历 · 迭代 | 3/3 ✅ | tree_traversal 毕业 |
 | 层序遍历 · BFS | 3/3 ✅ | BFS pattern 已毕业 |
 | 深度与高度 · DFS | 5/5 ✅ | 全完成 |
 | 构造二叉树 | 2/2 ✅ | tree_construction 毕业 |
@@ -87,6 +87,6 @@
 | 路径系列 | 4/4 ✅ | tree_path 毕业（437 前缀和优化待补）|
 | 二叉搜索树 | 6/6 ✅ | bst 毕业 |
 | 其他 | 1/4 | |
-| **二叉树合计** | **26/30** | |
+| **二叉树合计** | **27/30** | |
 | 加菜 | 3 | |
-| **总计** | **29 题** | |
+| **总计** | **30 题** | |
