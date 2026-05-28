@@ -7,7 +7,7 @@
 
 ---
 
-## 二叉树（28/30）
+## 二叉树（29/30）
 
 ### 1. 三序遍历 · 递归 + 迭代（3/3）✅
 
@@ -56,10 +56,10 @@
 - ✅ [0098 验证二叉搜索树](0098%20验证二叉搜索树.md) ⭐ hot100 → [bst](patterns/bst.md)
 - ✅ [0230 二叉搜索树中第 K 小的元素](0230%20二叉搜索树中第%20K%20小的元素.md) ⭐ hot100 → [bst](patterns/bst.md)
 
-### 8. 其他（2/4）
+### 8. 其他（3/4）
 
 - ✅ [0226 翻转二叉树](0226%20翻转二叉树.md) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md)
-- ❌ [617 合并二叉树](https://leetcode.cn/problems/merge-two-binary-trees/) → [tree_dfs](patterns/tree_dfs.md)
+- ✅ [0617 合并二叉树](0617%20合并二叉树.md) → [tree_subtree](patterns/tree_subtree.md)
 - ❌ [114 二叉树展开为链表](https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md)
 - ✅ [0236 二叉树的最近公共祖先](0236%20二叉树的最近公共祖先.md) ⭐ hot100 → [tree_dfs](patterns/tree_dfs.md) (Type B)
 
@@ -86,7 +86,7 @@
 | 子结构判断 | 3/3 ✅ | tree_subtree 毕业 |
 | 路径系列 | 4/4 ✅ | tree_path 毕业（437 前缀和优化待补）|
 | 二叉搜索树 | 6/6 ✅ | bst 毕业 |
-| 其他 | 2/4 | 差 617、114 |
-| **二叉树合计** | **28/30** | |
+| 其他 | 3/4 | 差 114 |
+| **二叉树合计** | **29/30** | |
 | 加菜 | 3 | |
-| **总计** | **31 题** | |
+| **总计** | **32 题** | |
