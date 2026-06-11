@@ -24,8 +24,10 @@ algorithm/
 ├── README.md
 ├── patterns/           ← 各 pattern 的概念 + 模板 + 心法 + 已刷题
 │   ├── README.md       ← Pattern 推进策略 + 标签字典
-│   ├── tree_bfs.md
-│   └── ...
+│   ├── 二叉树/          ← 按系列分子目录
+│   │   ├── tree_bfs.md  tree_dfs.md  bst.md  ……
+│   │   └── （三序 / 构造 / 子结构 / 路径）
+│   └── 回溯/            ← 新系列各自独立，互不混杂
 ├── 0001 两数之和.md      ← 一题一个 markdown，文件名 = 题号 + 中文标题
 ├── 0102 二叉树的层序遍历.md
 └── ...

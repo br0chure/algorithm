@@ -44,7 +44,7 @@ git log --diff-filter=A --name-only --format="%cs" -- "0*.md" \
 
 ### 用户答不上 Q2
 
-Claude 指引去 `patterns/<tag>.md` 看对应章节，看完再来答。**不直接给答案。**
+Claude 指引去 `patterns/<系列>/<tag>.md` 看对应章节，看完再来答。**不直接给答案。**
 
 ### 用户说"卡了"
 
