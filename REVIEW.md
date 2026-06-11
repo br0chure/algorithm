@@ -24,8 +24,8 @@
 
 ```bash
 # 列出所有题目 .md 的首次归档日期，按日期排序
-git log --diff-filter=A --name-only --format="%cs" -- "0*.md" \
-  | awk '/^[0-9]{4}-/ {date=$0} /^0/ {print date, $0}' | sort
+git log --diff-filter=A --name-only --format="%cs" -- "problems/" \
+  | awk '/^[0-9]{4}-/ {date=$0} /\.md$/ {print date, $0}' | sort
 ```
 
 结合 [INDEX.md](INDEX.md) 看哪些是 ⭐hot100，筛出 30+ 天前的候选。

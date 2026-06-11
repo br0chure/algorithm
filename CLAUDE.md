@@ -13,7 +13,7 @@
 - 调用 `leetcode-teacher` skill 时，将其输出翻译成中文后再交付给用户。
 - skill 默认输出 Python / TypeScript / Kotlin / Swift。本仓库统一用 Go 归档，必要时把 skill 给出的代码翻译成 Go。
 
-## 目录结构（一题一文件，平铺）
+## 目录结构（题目 / pattern 按系列分目录）
 
 ```
 algorithm/
@@ -28,13 +28,13 @@ algorithm/
 │   │   ├── tree_bfs.md  tree_dfs.md  bst.md  ……
 │   │   └── （三序 / 构造 / 子结构 / 路径）
 │   └── 回溯/            ← 新系列各自独立，互不混杂
-├── 0001 两数之和.md      ← 一题一个 markdown，文件名 = 题号 + 中文标题
-├── 0102 二叉树的层序遍历.md
-└── ...
+└── problems/           ← 已归档题解，按系列分目录（与 patterns/ 对称）
+    ├── 二叉树/          ← 0094 … 0701（33 题），文件名 = 题号 + 中文标题
+    └── 回溯/            ← 0046 …（开刷后生成）
 ```
 
 **命名约定**：
-- 题目文件：`XXXX 中文标题.md`（4 位题号 + 一个空格 + 中文标题）
+- 题目文件：`problems/<系列>/XXXX 中文标题.md`（4 位题号 + 空格 + 中文标题，按系列归档）
 - 运维文件：全大写英文（`CLAUDE.md` / `WORKFLOW.md` / `REVIEW.md` / `INDEX.md`），视觉上与题目区分
 - 代码：直接嵌入题目 markdown 的 ` ```go ... ``` ` 代码块，**不创建独立 `.go` 文件**
 
