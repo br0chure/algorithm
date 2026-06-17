@@ -1,0 +1,24 @@
+{
+  "id": "conv-1781099954239-ezs3l9tjs",
+  "providerId": "claude",
+  "title": "查看 Git 提交记录",
+  "titleGenerationStatus": "success",
+  "createdAt": 1781099954261,
+  "updatedAt": 1781707462327,
+  "lastResponseAt": 1781707462327,
+  "sessionId": "06f3cec1-c9ae-4015-9e6f-6a4de2625a2a",
+  "providerState": {
+    "providerSessionId": "06f3cec1-c9ae-4015-9e6f-6a4de2625a2a"
+  },
+  "currentNote": "REVIEW.md",
+  "usage": {
+    "model": "opus[1m]",
+    "inputTokens": 343,
+    "cacheCreationInputTokens": 2850,
+    "cacheReadInputTokens": 338872,
+    "contextWindow": 1000000,
+    "contextTokens": 342065,
+    "percentage": 34,
+    "contextWindowIsAuthoritative": true
+  }
+}
