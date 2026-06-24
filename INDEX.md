@@ -75,7 +75,7 @@
 
 ---
 
-## 回溯（5/14）🚀
+## 回溯（6/14）🚀
 
 > 清单来源：`~/Documents/go求职/经典题目/回溯.md`
 > 回溯骨架 = **选择 → 递归 → 撤销**，与二叉树 [tree_path](patterns/二叉树/tree_path.md) 一脉相承。pattern 文档放 `patterns/回溯/`，随做题沉淀。题目归档后再补 `.md` 链接。
@@ -85,7 +85,7 @@
 - ✅ [0077 组合](problems/回溯/0077%20组合.md) → [backtracking](patterns/回溯/backtracking.md)
 - ✅ [0216 组合总和 III](problems/回溯/0216%20组合总和%20III.md) → [backtracking](patterns/回溯/backtracking.md)
 - ✅ [0039 组合总和](problems/回溯/0039%20组合总和.md) ⭐ hot100 → [backtracking](patterns/回溯/backtracking.md)
-- ❌ 0040 组合总和 II（同层去重）
+- ✅ [0040 组合总和 II](problems/回溯/0040%20组合总和%20II.md) → [backtracking](patterns/回溯/backtracking.md)（同层去重）
 - ❌ 0017 电话号码的字母组合 ⭐ hot100
 - ❌ 0131 分割回文串 ⭐ hot100
 - ❌ 0093 复原 IP 地址
@@ -122,5 +122,5 @@
 | 其他 | 4/4 ✅ | 全完成 |
 | **二叉树合计** | **30/30** 🎉 | 全部完成 |
 | 加菜 | 3 | |
-| **回溯系列** | **5/14** 🚀 | 骨架 + 可重复 / 双约束齐，下一关：去重 |
-| **总计** | **已归档 38 题** | 回溯还剩 9 道 |
+| **回溯系列** | **6/14** 🚀 | + 0040 同层去重（排序 + j>i 跳过）|
+| **总计** | **已归档 39 题** | 回溯还剩 8 道 |
