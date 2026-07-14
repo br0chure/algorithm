@@ -52,13 +52,14 @@ Claude 记下下次会话再推同一道（保留在跨会话记忆里）。
 
 ---
 
-## 当前复习池（2026-06-04）
+## 当前复习池（2026-07-15）
 
-已毕业 7 个 pattern：
+已毕业 8 个 pattern：
 
-`tree_bfs` / `tree_dfs` / `tree_traversal` / `tree_construction` / `tree_subtree` / `tree_path` / `bst`
+- **二叉树**：`tree_bfs` / `tree_dfs` / `tree_traversal` / `tree_construction` / `tree_subtree` / `tree_path` / `bst`
+- **回溯**：`backtracking`（14 题通关，A/B 分类 + 8 心法）
 
-backtracking 在练，不进复习池。每毕业一个新 pattern，加入复习池。
+每毕业一个新 pattern 加入复习池；DP 开刷后同理（练完再进池）。
 
 ---
 
