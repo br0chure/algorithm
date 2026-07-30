@@ -84,6 +84,7 @@
 | `knapsack_01` | 0/1 Knapsack |
 | `knapsack_unbounded` | Unbounded Knapsack |
 | `fibonacci` | Fibonacci Numbers |
+| `house_robber` | 打家劫舍型（选或不选 + 相邻互斥）|
 | `lcs` | Longest Common Subsequence |
 
 ### Other Essential
